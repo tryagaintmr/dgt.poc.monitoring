@@ -1,0 +1,40 @@
+# my global config
+global:
+  scrape_interval:     15s
+  evaluation_interval: 15s
+
+# Alertmanager configuration
+alerting:
+  alertmanagers:
+  - static_configs:
+    - targets: # Add Alertmanager targets here
+
+# Load rules once and periodically evaluate them according to the global 'evaluation_interval'.
+rule_files:
+  # Specify rule files here
+
+# A scrape configuration containing exactly one endpoint to scrape:
+# Here it's Prometheus itself.
+scrape_configs:
+  # Scrape Prometheus itself every 15 seconds.
+  - job_name: 'prometheus'
+    static_configs:
+    - targets: ['localhost:9090']
+
+  # Scrape the .NET Core API
+  - job_name: 'dotnet-app-api'
+    metrics_path: '/metrics' # Indentation fixed
+    static_configs:
+    - targets: ['api:8090']
+
+  # Scrape the .NET Core Web
+  - job_name: 'dotnet-app-web'
+    metrics_path: '/metrics' # Indentation fixed
+    static_configs:
+    - targets: ['web:8091']
+
+  # Scrape RabbitMQ metrics
+  # - job_name: 'rabbitmq'
+  #   metrics_path: '/metrics'
+  #   static_configs:
+  #   - targets: ['rabbitmq:15692']

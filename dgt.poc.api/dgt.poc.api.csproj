@@ -1,0 +1,23 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <UserSecretsId>4c604683-a234-4122-8779-680db01b10a3</UserSecretsId>
+    <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.15.1" />
+    <PackageReference Include="Polly" Version="7.2.4" />
+    <PackageReference Include="prometheus-net" Version="8.0.1" />
+    <PackageReference Include="prometheus-net.AspNetCore" Version="8.0.1" />
+    <PackageReference Include="prometheus-net.AspNetCore.HealthChecks" Version="8.0.1" />
+    <PackageReference Include="Serilog" Version="3.0.1" />
+    <PackageReference Include="Serilog.Sinks.Console" Version="4.1.0" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
+    <PackageReference Include="System.Diagnostics.DiagnosticSource" Version="7.0.2" />
+  </ItemGroup>
+
+</Project>

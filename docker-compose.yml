@@ -1,0 +1,86 @@
+version: '3.4'
+
+services:
+    api:
+        image: api
+        build:
+            context: .
+            dockerfile: dgt.poc.api/Dockerfile
+        environment:
+          - ASPNETCORE_ENVIRONMENT=Development
+          - ASPNETCORE_URLS=https://+:443;http://+:80
+          - ASPNETCORE_Kestrel__Certificates__Default__Password=DevForEver
+          - ASPNETCORE_Kestrel__Certificates__Default__Path=/https/devdocker.pfx
+        volumes:
+          - ~/.aspnet/https:/https:ro
+        ports:
+            - 8090:80
+        expose:
+            - "8090"
+        depends_on:
+            - rabbitmq
+            - postgres
+    web:
+        image: web
+        build:
+            context: .
+            dockerfile: dgt.poc.web/Dockerfile
+        environment:
+          - ASPNETCORE_ENVIRONMENT=Development
+          - ASPNETCORE_URLS=https://+:443;http://+:80
+          - ASPNETCORE_Kestrel__Certificates__Default__Password=DevForEver
+          - ASPNETCORE_Kestrel__Certificates__Default__Path=/https/devdocker.pfx
+        volumes:
+          - ~/.aspnet/https:/https:ro
+        ports:
+            - 8091:80
+        expose: 
+            - "8091"
+        depends_on:
+            - api
+    rabbitmq:
+        image: rabbitmq:management
+        ports:
+            - 15672:15672
+            - 5672:5672
+    postgres:
+        image: postgres:latest
+        environment:
+            POSTGRES_USER: db_admin
+            POSTGRES_PASSWORD: dbPa$$w0rd
+            POSTGRES_DB: appPocDatabase
+        ports:
+            - 5432:5432
+    prometheus:
+        image: prom/prometheus:latest
+        container_name: prometheus
+        ports:
+            - 9090:9090
+        expose:
+            - 9090
+        volumes:
+            - ./prometheus.yml:/etc/prometheus/prometheus.yml
+        command:
+            - '--config.file=/etc/prometheus/prometheus.yml' 
+        depends_on:
+            - api
+            - web
+            - rabbitmq   
+    grafana:
+        image: grafana/grafana:latest
+        container_name: grafana
+        ports:
+            - 3000:3000
+        depends_on:
+            - prometheus
+    # add an additional service seq to the docker-compose.yml file
+    # seq:
+    #     image: datalust/seq:latest
+    #     container_name: seq
+    #     ports:
+    #         - 5341:80
+    #     depends_on:
+    #         - api
+    #         - web
+    #         - rabbitmq
+    

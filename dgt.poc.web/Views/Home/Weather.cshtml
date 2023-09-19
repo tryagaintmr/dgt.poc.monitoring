@@ -1,0 +1,44 @@
+﻿@model List<dgt.poc.web.Models.WeatherForecast>
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Weather Forecast</title>
+</head>
+<body>
+
+<h1>Weather Forecast</h1>
+
+<table>
+    <thead>
+        <tr>
+            <th>Date</th>
+            <th>Temperature (C)</th>
+            <th>Temperature (F)</th>
+            <th>Summary</th>
+        </tr>
+    </thead>
+    <tbody>
+            @if(Model != null)
+            {
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@item.Date</td>
+                        <td>@item.TemperatureC</td>
+                        <td>@item.TemperatureF</td>
+                        <td>@item.Summary</td>
+                    </tr>
+                }
+            } else
+            {
+                <div>
+                    <p>Model is null</p>
+                </div>
+            }
+            
+    </tbody>
+</table>
+
+</body>
+</html>
